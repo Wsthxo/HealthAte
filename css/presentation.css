@@ -1,0 +1,179 @@
+/* ============================================
+   PRESENTATION LAUNCHER STYLES
+   ============================================ */
+
+.presentation-launcher {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6rem 0;
+    background: #ffffff;
+    position: relative;
+}
+
+.launcher-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.launcher-header h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+.launcher-header p {
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+}
+
+.launcher-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.launcher-card {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.launcher-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 40px rgba(20, 184, 166, 0.15);
+    border-color: var(--accent-primary);
+}
+
+.launcher-card-full {
+    grid-column: 1 / -1;
+    background: linear-gradient(135deg, #14b8a6 0%, #2dd4bf 100%);
+    color: white;
+}
+
+.launcher-card-full h3,
+.launcher-card-full p,
+.launcher-card-full .card-number {
+    color: white;
+}
+
+.launcher-card-full .card-icon svg {
+    stroke: white;
+}
+
+.launcher-card-full:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 40px rgba(20, 184, 166, 0.3);
+    border-color: white;
+}
+
+.card-number {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--accent-primary);
+    background: rgba(20, 184, 166, 0.1);
+    padding: 0.5rem 0.75rem;
+    border-radius: 999px;
+}
+
+.card-icon {
+    width: 64px;
+    height: 64px;
+    background: linear-gradient(135deg, rgba(20, 184, 166, 0.1) 0%, rgba(45, 212, 191, 0.1) 100%);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.launcher-card:hover .card-icon {
+    background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+}
+
+.launcher-card:hover .card-icon svg {
+    stroke: white;
+}
+
+.card-icon svg {
+    stroke: var(--accent-primary);
+    transition: all 0.3s ease;
+}
+
+.launcher-card h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.launcher-card p {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin: 0;
+    flex-grow: 1;
+}
+
+.card-action {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--accent-primary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: auto;
+    transition: all 0.3s ease;
+}
+
+.launcher-card:hover .card-action {
+    color: var(--accent-primary);
+    transform: translateX(4px);
+}
+
+.launcher-card-full .card-action {
+    color: white;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .launcher-header h1 {
+        font-size: 2rem;
+    }
+
+    .launcher-header p {
+        font-size: 1rem;
+    }
+
+    .launcher-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .launcher-card {
+        padding: 1.5rem;
+    }
+}
+
+/* Hide presentation launcher when not needed */
+body.presentation-mode .presentation-launcher {
+    display: none;
+}
+
+body.presentation-mode .nav {
+    display: none;
+}

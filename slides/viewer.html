@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slide Viewer - VitalCare</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #1a1a1a;
+            color: #fff;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        .viewer-container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            width: 100%;
+        }
+
+        .viewer-header {
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .viewer-container:hover .viewer-header {
+            opacity: 1;
+        }
+
+        .viewer-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .viewer-controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .zoom-controls {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            padding: 0 1rem;
+            border-left: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .zoom-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            width: 32px;
+            height: 32px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            font-size: 1.2rem;
+        }
+
+        .zoom-btn:hover {
+            background: rgba(196, 97, 47, 0.2);
+            border-color: #C4612F;
+        }
+
+        .zoom-level {
+            font-size: 0.9rem;
+            color: #999;
+            min-width: 50px;
+            text-align: center;
+        }
+
+        .slide-counter {
+            font-size: 0.9rem;
+            color: #999;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.25rem 0.5rem;
+            transition: color 0.3s;
+        }
+
+        .close-btn:hover {
+            color: #C4612F;
+        }
+
+        .slide-viewer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .slide-content {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: grab;
+            overflow: hidden;
+        }
+
+        .slide-content.dragging {
+            cursor: grabbing;
+        }
+
+        .slide-wrapper {
+            transition: transform 0.2s ease;
+            transform-origin: center center;
+        }
+
+        .slide-content img {
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+
+        .slide-content embed,
+        .slide-content iframe {
+            width: 100vw;
+            height: 100vh;
+            border: none;
+            object-fit: cover;
+        }
+
+        .nav-btn {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            font-size: 2rem;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            z-index: 10;
+            opacity: 0;
+        }
+
+        .viewer-container:hover .nav-btn {
+            opacity: 1;
+        }
+
+        .nav-btn:hover {
+            background: rgba(196, 97, 47, 0.2);
+            border-color: #C4612F;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .nav-btn:disabled:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-50%) scale(1);
+        }
+
+        .prev-btn {
+            left: 2rem;
+        }
+
+        .next-btn {
+            right: 2rem;
+        }
+
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: #999;
+        }
+
+        .error {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            color: #ff6b6b;
+        }
+
+        .thumbnail-bar {
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            padding: 1rem;
+            display: flex;
+            gap: 0.5rem;
+            overflow-x: auto;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .viewer-container:hover .thumbnail-bar {
+            opacity: 1;
+        }
+
+        .thumbnail {
+            min-width: 120px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid transparent;
+            border-radius: 4px;
+            cursor: pointer;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .thumbnail:hover {
+            border-color: rgba(196, 97, 47, 0.5);
+            transform: scale(1.05);
+        }
+
+        .thumbnail.active {
+            border-color: #C4612F;
+        }
+
+        .thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Keyboard navigation hint */
+        .keyboard-hint {
+            position: fixed;
+            bottom: 100px;
+            right: 2rem;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            color: #999;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .keyboard-hint.show {
+            opacity: 1;
+        }
+
+        /* Disable text selection when dragging */
+        .no-select {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="viewer-container">
+        <div class="viewer-header">
+            <div class="viewer-title" id="chapterTitle">Loading...</div>
+            <div class="viewer-controls">
+                <div class="zoom-controls">
+                    <button class="zoom-btn" id="zoomOutBtn" title="Zoom Out">−</button>
+                    <div class="zoom-level" id="zoomLevel">100%</div>
+                    <button class="zoom-btn" id="zoomInBtn" title="Zoom In">+</button>
+                    <button class="zoom-btn" id="zoomResetBtn" title="Reset Zoom">⟲</button>
+                </div>
+                <div class="slide-counter">
+                    <span id="currentSlide">1</span> / <span id="totalSlides">0</span>
+                </div>
+                <button class="close-btn" onclick="window.location.href='../index.html#presentation'">×</button>
+            </div>
+        </div>
+
+        <div class="slide-viewer" id="slideViewer">
+            <button class="nav-btn prev-btn" id="prevBtn" disabled>‹</button>
+            <div class="slide-content" id="slideContent">
+                <div class="loading">Loading slides...</div>
+            </div>
+            <button class="nav-btn next-btn" id="nextBtn" disabled>›</button>
+        </div>
+
+        <div class="thumbnail-bar" id="thumbnailBar"></div>
+
+        <div class="keyboard-hint" id="keyboardHint">
+            Use ← → arrow keys to navigate • Mouse wheel to zoom
+        </div>
+    </div>
+
+    <script>
+        let currentSlideIndex = 0;
+        let slides = [];
+        let chapterData = null;
+
+        // Zoom state
+        let zoomLevel = 1;
+        let minZoom = 0.5;
+        let maxZoom = 5;
+        let zoomStep = 0.25;
+        let panX = 0;
+        let panY = 0;
+        let isDragging = false;
+        let dragStartX = 0;
+        let dragStartY = 0;
+
+        // Get chapter from URL parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const chapter = urlParams.get('chapter');
+
+        // Show keyboard hint briefly
+        setTimeout(() => {
+            document.getElementById('keyboardHint').classList.add('show');
+            setTimeout(() => {
+                document.getElementById('keyboardHint').classList.remove('show');
+            }, 3000);
+        }, 1000);
+
+        // Load chapter data
+        async function loadChapter() {
+            if (!chapter) {
+                showError('No chapter specified');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${chapter}/slides.json`);
+                if (!response.ok) throw new Error('Failed to load chapter data');
+
+                chapterData = await response.json();
+                slides = chapterData.slides;
+
+                document.getElementById('chapterTitle').textContent = chapterData.title;
+                document.getElementById('totalSlides').textContent = slides.length;
+
+                loadSlide(0);
+                generateThumbnails();
+            } catch (error) {
+                showError('Failed to load slides: ' + error.message);
+            }
+        }
+
+        // Load specific slide
+        function loadSlide(index) {
+            if (index < 0 || index >= slides.length) return;
+
+            currentSlideIndex = index;
+            const slideFile = slides[index];
+            const slideContent = document.getElementById('slideContent');
+
+            // Reset zoom when changing slides
+            resetZoom();
+
+            // Determine file type
+            const extension = slideFile.split('.').pop().toLowerCase();
+
+            if (extension === 'pdf') {
+                slideContent.innerHTML = `<div class="slide-wrapper"><embed src="${chapter}/${slideFile}" type="application/pdf" /></div>`;
+            } else {
+                slideContent.innerHTML = `<div class="slide-wrapper"><img src="${chapter}/${slideFile}" alt="Slide ${index + 1}" /></div>`;
+            }
+
+            // Update counter and buttons
+            document.getElementById('currentSlide').textContent = index + 1;
+            document.getElementById('prevBtn').disabled = (index === 0);
+            document.getElementById('nextBtn').disabled = (index === slides.length - 1);
+
+            // Update thumbnail active state
+            updateThumbnails();
+
+            // Re-attach zoom event listeners to new slide
+            attachZoomListeners();
+        }
+
+        // Generate thumbnails
+        function generateThumbnails() {
+            const thumbnailBar = document.getElementById('thumbnailBar');
+            thumbnailBar.innerHTML = '';
+
+            slides.forEach((slide, index) => {
+                const extension = slide.split('.').pop().toLowerCase();
+                const thumb = document.createElement('div');
+                thumb.className = 'thumbnail';
+                if (index === 0) thumb.classList.add('active');
+
+                if (extension !== 'pdf') {
+                    thumb.innerHTML = `<img src="${chapter}/${slide}" alt="Slide ${index + 1}" />`;
+                } else {
+                    thumb.innerHTML = `<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #999;">PDF ${index + 1}</div>`;
+                }
+
+                thumb.addEventListener('click', () => loadSlide(index));
+                thumbnailBar.appendChild(thumb);
+            });
+        }
+
+        // Update thumbnail active state
+        function updateThumbnails() {
+            const thumbnails = document.querySelectorAll('.thumbnail');
+            thumbnails.forEach((thumb, index) => {
+                thumb.classList.toggle('active', index === currentSlideIndex);
+            });
+        }
+
+        // Navigation functions
+        function nextSlide() {
+            if (currentSlideIndex < slides.length - 1) {
+                loadSlide(currentSlideIndex + 1);
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlideIndex > 0) {
+                loadSlide(currentSlideIndex - 1);
+            }
+        }
+
+        function showError(message) {
+            document.getElementById('slideContent').innerHTML = `
+                <div class="error">
+                    <div style="font-size: 3rem;">⚠️</div>
+                    <div>${message}</div>
+                </div>
+            `;
+        }
+
+        // Zoom functions
+        function updateZoom() {
+            const wrapper = document.querySelector('.slide-wrapper');
+            if (!wrapper) return;
+
+            wrapper.style.transform = `translate(${panX}px, ${panY}px) scale(${zoomLevel})`;
+            document.getElementById('zoomLevel').textContent = Math.round(zoomLevel * 100) + '%';
+        }
+
+        function zoomIn() {
+            if (zoomLevel < maxZoom) {
+                zoomLevel = Math.min(zoomLevel + zoomStep, maxZoom);
+                updateZoom();
+            }
+        }
+
+        function zoomOut() {
+            if (zoomLevel > minZoom) {
+                zoomLevel = Math.max(zoomLevel - zoomStep, minZoom);
+                // Adjust pan to keep content centered
+                const ratio = zoomLevel / (zoomLevel + zoomStep);
+                panX *= ratio;
+                panY *= ratio;
+                updateZoom();
+            }
+        }
+
+        function resetZoom() {
+            zoomLevel = 1;
+            panX = 0;
+            panY = 0;
+            updateZoom();
+        }
+
+        function zoomAtPoint(delta, clientX, clientY) {
+            const wrapper = document.querySelector('.slide-wrapper');
+            if (!wrapper) return;
+
+            const rect = wrapper.getBoundingClientRect();
+            const x = clientX - rect.left;
+            const y = clientY - rect.top;
+
+            const oldZoom = zoomLevel;
+            zoomLevel = Math.max(minZoom, Math.min(maxZoom, zoomLevel + delta));
+
+            if (zoomLevel !== oldZoom) {
+                const zoomRatio = zoomLevel / oldZoom - 1;
+                panX -= (x - rect.width / 2) * zoomRatio;
+                panY -= (y - rect.height / 2) * zoomRatio;
+                updateZoom();
+            }
+        }
+
+        // Attach zoom event listeners
+        function attachZoomListeners() {
+            const slideContent = document.getElementById('slideContent');
+            const wrapper = document.querySelector('.slide-wrapper');
+            if (!wrapper) return;
+
+            // Mouse wheel zoom
+            slideContent.addEventListener('wheel', (e) => {
+                e.preventDefault();
+                const delta = e.deltaY > 0 ? -zoomStep : zoomStep;
+                zoomAtPoint(delta, e.clientX, e.clientY);
+            }, { passive: false });
+
+            // Pan on drag
+            slideContent.addEventListener('mousedown', (e) => {
+                if (zoomLevel > 1) {
+                    isDragging = true;
+                    dragStartX = e.clientX - panX;
+                    dragStartY = e.clientY - panY;
+                    slideContent.classList.add('dragging', 'no-select');
+                }
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                if (isDragging) {
+                    panX = e.clientX - dragStartX;
+                    panY = e.clientY - dragStartY;
+                    updateZoom();
+                }
+            });
+
+            document.addEventListener('mouseup', () => {
+                if (isDragging) {
+                    isDragging = false;
+                    slideContent.classList.remove('dragging', 'no-select');
+                }
+            });
+
+            // Touch pinch zoom
+            let initialDistance = 0;
+            let initialZoom = 1;
+
+            slideContent.addEventListener('touchstart', (e) => {
+                if (e.touches.length === 2) {
+                    initialDistance = Math.hypot(
+                        e.touches[0].clientX - e.touches[1].clientX,
+                        e.touches[0].clientY - e.touches[1].clientY
+                    );
+                    initialZoom = zoomLevel;
+                }
+            });
+
+            slideContent.addEventListener('touchmove', (e) => {
+                if (e.touches.length === 2) {
+                    e.preventDefault();
+                    const currentDistance = Math.hypot(
+                        e.touches[0].clientX - e.touches[1].clientX,
+                        e.touches[0].clientY - e.touches[1].clientY
+                    );
+                    const scale = currentDistance / initialDistance;
+                    zoomLevel = Math.max(minZoom, Math.min(maxZoom, initialZoom * scale));
+                    updateZoom();
+                }
+            }, { passive: false });
+        }
+
+        // Event listeners
+        document.getElementById('prevBtn').addEventListener('click', prevSlide);
+        document.getElementById('nextBtn').addEventListener('click', nextSlide);
+
+        // Zoom button listeners
+        document.getElementById('zoomInBtn').addEventListener('click', zoomIn);
+        document.getElementById('zoomOutBtn').addEventListener('click', zoomOut);
+        document.getElementById('zoomResetBtn').addEventListener('click', resetZoom);
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') prevSlide();
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'Escape') window.location.href = '../index.html#presentation';
+            if (e.key === '+' || e.key === '=') zoomIn();
+            if (e.key === '-' || e.key === '_') zoomOut();
+            if (e.key === '0') resetZoom();
+        });
+
+        // Touch/swipe support
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.getElementById('slideViewer').addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.getElementById('slideViewer').addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            if (touchEndX < touchStartX - swipeThreshold) {
+                nextSlide();
+            }
+            if (touchEndX > touchStartX + swipeThreshold) {
+                prevSlide();
+            }
+        }
+
+        // Initialize
+        loadChapter();
+    </script>
+</body>
+</html>

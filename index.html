@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthAte</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="HealthAte - แพลตฟอร์มสุขภาพและความเป็นอยู่ที่ดีแบบครอบคลุม ให้บริการโปรแกรมดูแลสุขภาพส่วนบุคคล คำแนะนำด้านโภชนาการ การดูแลสุขภาพจิต และโซลูชันสุขภาพแบบองค์รวม">
+    <meta name="keywords" content="สุขภาพและความเป็นอยู่ที่ดี, การดูแลตนเอง, สุขภาพจิต, โภชนาการ, ออกกำลังกาย, สุขภาพองค์รวม, โปรแกรมสุขภาพ, สติ, ไลฟ์สไตล์เพื่อสุขภาพ">
+    <meta name="author" content="HealthAte">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://healthate.com/">
+    <meta property="og:title" content="HealthAte - พันธมิตรเพื่อสุขภาพที่ดีของคุณ">
+    <meta property="og:description" content="แพลตฟอร์มสุขภาพและความเป็นอยู่ที่ดีแบบครอบคลุม ให้บริการโปรแกรมดูแลสุขภาพส่วนบุคคลและโซลูชันสุขภาพแบบองค์รวม">
+    <meta property="og:image" content="https://healthate.com/og-image.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://healthate.com/">
+    <meta property="twitter:title" content="HealthAte - พันธมิตรเพื่อสุขภาพที่ดีของคุณ">
+    <meta property="twitter:description" content="แพลตฟอร์มสุขภาพและความเป็นอยู่ที่ดีแบบครอบคลุม ให้บริการโปรแกรมดูแลสุขภาพส่วนบุคคลและโซลูชันสุขภาพแบบองค์รวม">
+    <meta property="twitter:image" content="https://vitalcare.com/og-image.jpg">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/presentation.css">
+
+    <!-- GSAP and ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="container">
+            <a href="#hero" class="logo">
+                <span class="logo-icon">
+                    <!-- <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                    </svg> -->
+                    <img src="images/logo.png" alt="HealthAte Logo" class="logo-image">
+                </span>
+                <span class="logo-text">HealthAte</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#hero">Home</a></li>
+                <li><a href="#presentation">Presentation</a></li>
+                <li><a href="#features">Services</a></li>
+                <li><a href="#team">Our Team</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero-bg">
+            <div class="grid-overlay"></div>
+        </div>
+        <div class="container">
+            <div class="hero-content">
+                <div class="badge">
+                    <img src="images/logo.png" alt="HealthAte Logo" style="height: 24px; width: auto; margin-right: 8px;">
+                    <span>HealthAte</span>
+                </div>
+                <h1 class="hero-title">
+                    <span class="gradient-text">แช๊ะก่อนชิม รู้ทันความเสี่ยง</span><br>
+                    <span>ดูแลสุขภาพได้ทันที</span>
+                </h1>
+                <p class="hero-subtitle">แพลตฟอร์มสุขภาพแบบครอบคลุม เสนอโปรแกรมการดูแลตนเองแบบเฉพาะบุคคล คำแนะนำด้านโภชนาการ การดูแลสุขภาพจิต และโซลูชันสุขภาพแบบองค์รวม</p>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Presentation Launcher Screen -->
+    <section class="presentation-launcher" id="presentation">
+        <div class="container">
+            <div class="launcher-header">
+                <h1>HealthAte Presentation</h1>
+                <p>Select a section to present or arrange the order</p>
+            </div>
+
+            <div class="launcher-grid">
+                <div class="launcher-card" data-chapter="01-HealthAte">
+                    <div class="card-number">01</div>
+                    <div class="card-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                        </svg>
+                    </div>
+                    <h3>HealthAte</h3>
+                    <p>Welcome & Overview</p>
+                    <div class="card-action">Launch →</div>
+                </div>
+
+                <!-- <div class="launcher-card" data-chapter="02-services">
+                    <div class="card-number">02</div>
+                    <div class="card-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                        </svg>
+                    </div>
+                    <h3>Our Services</h3>
+                    <p>Wellness Solutions</p>
+                    <div class="card-action">Launch →</div>
+                </div>
+
+                <div class="launcher-card" data-chapter="03-programs">
+                    <div class="card-number">03</div>
+                    <div class="card-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2v20M2 12h20"/>
+                        </svg>
+                    </div>
+                    <h3>Health Programs</h3>
+                    <p>Specialized Wellness</p>
+                    <div class="card-action">Launch →</div>
+                </div>
+
+                <div class="launcher-card" data-chapter="04-team">
+                    <div class="card-number">04</div>
+                    <div class="card-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+                            <line x1="9" y1="9" x2="9.01" y2="9"/>
+                            <line x1="15" y1="9" x2="15.01" y2="9"/>
+                        </svg>
+                    </div>
+                    <h3>Success Stories</h3>
+                    <p>Expert Team</p>
+                    <div class="card-action">Launch →</div>
+                </div>
+
+                <div class="launcher-card" data-chapter="05-join">
+                    <div class="card-number">05</div>
+                    <div class="card-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <line x1="19" y1="8" x2="19" y2="14"/>
+                            <line x1="22" y1="11" x2="16" y2="11"/>
+                        </svg>
+                    </div>
+                    <h3>Get Started</h3>
+                    <p>Join Our Community</p>
+                    <div class="card-action">Launch →</div>
+                </div> -->
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Features Section -->
+    <section id="features" class="features-section">
+        <div class="container">
+            <div class="section-header">
+                <h2><span>บริการของเรา</span></h2>
+                <p>โซลูชันด้านสุขภาพแบบครอบคลุมสำหรับการดูแลสุขภาพของคุณอย่างสมบูรณ์</p>
+            </div>
+
+            <div class="features-grid" style="grid-template-columns: 1fr; max-width: 600px; margin: 0 auto;">
+                <a href="nutrition.html" style="text-decoration: none; color: inherit;">
+                    <div class="feature-card" style="cursor: pointer;">
+                        <div class="feature-icon">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 2v20M2 12h20"/>
+                            </svg>
+                        </div>
+                        <h3>คำแนะนำโภชนาการ</h3>
+                        <p>คำแนะนำโภชนาการจากผู้เชี่ยวชาญ การวางแผนอาหาร และการสนับสนุนด้านอาหาร</p>
+                        <div class="feature-tag">โภชนาการที่ดี</div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section with Canvas -->
+    <section id="team" class="team-section">
+        <canvas id="teamCanvas" class="team-canvas"></canvas>
+        <div class="container team-container">
+            <div class="section-header">
+                <h2><span>Our Team</span></h2>
+                <p>รายชื่อสมาชิกและตำแหน่งงาน ทั้ง 7 คน</p>
+            </div>
+
+            <div class="team-carousel-wrapper">
+                <button class="carousel-nav carousel-prev" aria-label="Previous">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </button>
+
+                <div class="team-carousel">
+                    <div class="team-card-large">
+                        <div class="team-avatar-large" style="background-image: url('images/04.jpg');"></div>
+                        <div class="team-info">
+                            <p class="team-job-title">Developer</p>
+                            <h3>นายวศิน ทอดเสียง</h3>
+                            <p class="team-role">นักพัฒนาซอฟต์แวร์</p>
+                        </div>
+                    </div>
+
+                    <div class="team-card-large">
+                        <div class="team-avatar-large" style="background-image: url('images/08.jpg');"></div>
+                        <div class="team-info">
+                            <p class="team-job-title">Developer</p>
+                            <h3>นายวีสเทียว แจ่มรุจี</h3>
+                            <p class="team-role">นักพัฒนาซอฟต์แวร์</p>
+                        </div>
+                    </div>
+
+                    <div class="team-card-large">
+                        <div class="team-avatar-large" style="background-image: url('images/05.jpg');"></div>
+                        <div class="team-info">
+                            <p class="team-job-title">Presentation Specialist</p>
+                            <h3>นางสาวพิมชนก วิชัยปะ</h3>
+                            <p class="team-role">ผู้เชี่ยวชาญด้านการนำเสนอ</p>
+                        </div>
+                    </div>
+
+                    <div class="team-card-large">
+                        <div class="team-avatar-large" style="background-image: url('images/01.jpg');"></div>
+                        <div class="team-info">
+                            <p class="team-job-title">Presentation Specialist</p>
+                            <h3>นายศุภกร เรือนโย</h3>
+                            <p class="team-role">ผู้เชี่ยวชาญด้านการนำเสนอ</p>
+                        </div>
+                    </div>
+
+                    <div class="team-card-large">
+                        <div class="team-avatar-large" style="background-image: url('images/07.jpg');"></div>
+                        <div class="team-info">
+                            <p class="team-job-title">Presentation Specialist</p>
+                            <h3>นางสาวพณิตา ชาญเดช</h3>
+                            <p class="team-role">ผู้เชี่ยวชาญด้านการนำเสนอ</p>
+                        </div>
+                    </div>
+
+                    <div class="team-card-large">
+                        <div class="team-avatar-large" style="background-image: url('images/02.jpg');"></div>
+                        <div class="team-info">
+                            <p class="team-job-title">Presentation Specialist</p>
+                            <h3>นางสาวปัญฎิญานันท์ฺ ปุญญฤทธิ์</h3>
+                            <p class="team-role">ผู้เชี่ยวชาญด้านการนำเสนอ</p>
+                        </div>
+                    </div>
+
+                    <div class="team-card-large">
+                        <div class="team-avatar-large" style="background-image: url('images/03.jpg');"></div>
+                        <div class="team-info">
+                            <p class="team-job-title">Presentation Specialist</p>
+                            <h3>นางสาวญายาวีร์ อินตะสาร</h3>
+                            <p class="team-role">ผู้เชี่ยวชาญด้านการนำเสนอ</p>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="carousel-nav carousel-next" aria-label="Next">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="carousel-indicators">
+                <span class="indicator active"></span>
+                <span class="indicator"></span>
+                <span class="indicator"></span>
+                <span class="indicator"></span>
+                <span class="indicator"></span>
+                <span class="indicator"></span>
+                <span class="indicator"></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+            <a href="#hero" class="logo">
+                <span class="logo-icon">
+                    <!-- <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                    </svg> -->
+                    <img src="images/logo.png" alt="HealthAte Logo" class="logo-image">
+                </span>
+                <span class="logo-text">HealthAte</span>
+            </a>
+                    <p class="footer-description">สนับสนุนการเดินทางสุขภาพของคุณอย่างครอบคลุม<br>สุขภาพของคุณคือภารกิจของเรา</p>
+                </div>
+
+                <div class="footer-section">
+                    <h4>โปรแกรม</h4>
+                    <ul class="footer-links">
+                        <li><a href="#features">แผนสุขภาพ</a></li>
+                        <!-- <li><a href="#team">เรื่องราวความสำเร็จ</a></li> -->
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>ทรัพยากร</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">บทความสุขภาพ</a></li>
+                        <li><a href="#">คู่มือโภชนาการ</a></li>
+                        <li><a href="#">เคล็ดลับสุขภาพ</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>บริษัท</h4>
+                    <ul class="footer-links">
+                        <li><a href="#team">เกี่ยวกับเรา</a></li>
+                        <li><a href="#">ติดต่อ</a></li>
+                        <li><a href="#">ร่วมงาน</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>© 2026 HealthAte.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
+    <script>
+        // Slide launcher functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const launcherCards = document.querySelectorAll('.launcher-card[data-chapter]');
+
+            launcherCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const chapter = this.getAttribute('data-chapter');
+                    // Navigate to slide viewer
+                    window.location.href = `slides/viewer.html?chapter=${chapter}&return=presentation`;
+                });
+            });
+        });
+    </script>
+</body>
+</html>
